@@ -3,6 +3,28 @@ import "@fontsource-variable/manrope";
 import "@fontsource/ibm-plex-mono/400.css";
 import "./globals.css";
 
+const preloaderBootstrap = `
+(function () {
+  var root = document.documentElement;
+  var path = window.location.pathname;
+  var isHome = path === "/" || path === "/index.html";
+  var hasSeen = false;
+  try { hasSeen = sessionStorage.getItem("datahouse_preloader_seen") === "1"; } catch (error) {}
+  if (isHome && !hasSeen) {
+    root.setAttribute("data-preloader", "pending");
+    window.setTimeout(function () {
+      if (root.getAttribute("data-preloader") === "pending") {
+        root.removeAttribute("data-preloader");
+        var main = document.querySelector("main");
+        if (main) main.removeAttribute("aria-busy");
+        window.dispatchEvent(new Event("datahouse:preloader-complete"));
+      }
+    }, 5000);
+  } else {
+    root.removeAttribute("data-preloader");
+  }
+})();`;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://datahouse.com.tr"),
   title: { default: "Datahouse — Bilgi Güçtür", template: "%s" },
@@ -24,5 +46,10 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="tr"><body>{children}</body></html>;
+  return (
+    <html lang="tr" suppressHydrationWarning>
+      <head><script dangerouslySetInnerHTML={{ __html: preloaderBootstrap }} /></head>
+      <body>{children}</body>
+    </html>
+  );
 }

@@ -30,7 +30,7 @@ export type CinematicChapter = {
 };
 
 export const cinematicChapters: CinematicChapter[] = [
-  { id: "hero", index: 0, desktop: { progress: 0, productX: 18, productY: 6, productScale: 1.08, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 }, mobile: { progress: 0, productX: 0, productY: 22, productScale: 1.18, productOpacity: .78, firewallX: 0, firewallY: 25, firewallScale: .72, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: .9, aiOpacity: 0, pulseX: 50, pulseY: 64 }, reducedMotion: { progress: 0, productX: 18, productY: 6, productScale: 1, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 } },
+  { id: "hero", index: 0, desktop: { progress: 0, productX: 12, productY: 6, productScale: 1, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 }, mobile: { progress: 0, productX: 0, productY: 22, productScale: 1.04, productOpacity: .78, firewallX: 0, firewallY: 25, firewallScale: .72, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: .9, aiOpacity: 0, pulseX: 50, pulseY: 64 }, reducedMotion: { progress: 0, productX: 12, productY: 6, productScale: 1, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 } },
   { id: "network", index: 1, desktop: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 }, mobile: { progress: .1667, productX: -14, productY: 26, productScale: .72, productOpacity: 0, firewallX: 2, firewallY: 29, firewallScale: .65, firewallOpacity: 0, aiX: 0, aiY: 23, aiScale: .88, aiOpacity: 0, pulseX: 28, pulseY: 32 }, reducedMotion: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 } },
   { id: "firewall", index: 2, desktop: { progress: .3333, productX: -16, productY: 3, productScale: .58, productOpacity: 0, firewallX: 25, firewallY: 6, firewallScale: 1, firewallOpacity: 1, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 72, pulseY: 54 }, mobile: { progress: .3333, productX: -8, productY: 26, productScale: .6, productOpacity: 0, firewallX: 0, firewallY: 30, firewallScale: .94, firewallOpacity: .96, aiX: 0, aiY: 23, aiScale: .88, aiOpacity: 0, pulseX: 63, pulseY: 66 }, reducedMotion: { progress: .3333, productX: -16, productY: 3, productScale: .58, productOpacity: 0, firewallX: 25, firewallY: 6, firewallScale: .96, firewallOpacity: 1, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 72, pulseY: 54 } },
   { id: "server", index: 3, desktop: { progress: .5, productX: 16, productY: 1, productScale: .9, productOpacity: 1, firewallX: 21, firewallY: 1, firewallScale: .88, firewallOpacity: 0, aiX: 14, aiY: 4, aiScale: .84, aiOpacity: 0, pulseX: 66, pulseY: 46 }, mobile: { progress: .5, productX: 8, productY: 24, productScale: .98, productOpacity: .82, firewallX: 2, firewallY: 26, firewallScale: .9, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: .92, aiOpacity: 0, pulseX: 66, pulseY: 55 }, reducedMotion: { progress: .5, productX: 16, productY: 1, productScale: .86, productOpacity: 1, firewallX: 21, firewallY: 1, firewallScale: .88, firewallOpacity: 0, aiX: 14, aiY: 4, aiScale: .84, aiOpacity: 0, pulseX: 66, pulseY: 46 } },
@@ -63,7 +63,7 @@ function sample(progress: number, mobile: boolean, reducedMotion: boolean) {
 export default function CinematicExperience() {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
-  const productRef = useRef<HTMLImageElement>(null);
+  const productRef = useRef<HTMLDivElement>(null);
   const firewallRef = useRef<HTMLDivElement>(null);
   const aiRef = useRef<HTMLImageElement>(null);
   const pulseRef = useRef<HTMLDivElement>(null);
@@ -72,10 +72,29 @@ export default function CinematicExperience() {
     const root = rootRef.current;
     const mount = canvasRef.current;
     const product = productRef.current;
+    const productImage = product?.querySelector<HTMLImageElement>(".powerstore-product");
     const firewall = firewallRef.current;
     const aiProduct = aiRef.current;
     const pulse = pulseRef.current;
-    if (!root || !mount || !product || !firewall || !aiProduct || !pulse) return;
+    if (!root || !mount || !product || !productImage || !firewall || !aiProduct || !pulse) return;
+
+    let productReady = false;
+    let preloaderComplete = !document.documentElement.hasAttribute("data-preloader");
+    const revealProduct = () => {
+      if (productReady && preloaderComplete) productImage.classList.add("is-loaded");
+    };
+    const markProductReady = () => {
+      productReady = true;
+      revealProduct();
+    };
+    const onPreloaderComplete = () => {
+      preloaderComplete = true;
+      revealProduct();
+    };
+
+    if (productImage.complete) markProductReady();
+    else productImage.addEventListener("load", markProductReady, { once: true });
+    window.addEventListener("datahouse:preloader-complete", onPreloaderComplete, { once: true });
 
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     if (reduced.matches) root.classList.add("reduced-motion");
@@ -220,6 +239,8 @@ export default function CinematicExperience() {
       removeEventListener("scroll", onScroll);
       removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
+      productImage.removeEventListener("load", markProductReady);
+      window.removeEventListener("datahouse:preloader-complete", onPreloaderComplete);
       renderer?.dispose();
       renderer?.domElement.remove();
       particles?.geometry.dispose();
@@ -235,7 +256,16 @@ export default function CinematicExperience() {
       <div className="cinematic-lines"><i /><i /><i /><i /><i /></div>
       <div className="cinematic-canvas" ref={canvasRef} />
       <div className="product-halo" />
-      <img ref={productRef} className="powerstore-product" src="/images/dell-powerstore.png" alt="" width="6255" height="1977" fetchPriority="high" />
+      <div ref={productRef} className="powerstore-product-stage">
+        <img
+          className="powerstore-product"
+          src="/images/dell-powerstore.png"
+          alt=""
+          width="6255"
+          height="1977"
+          fetchPriority="high"
+        />
+      </div>
       <div ref={firewallRef} className="firewall-product-stage">
         <svg className="firewall-flow" viewBox="0 0 1000 360" preserveAspectRatio="none" role="presentation">
           <path className="firewall-flow-base" d="M10 182 H154 L214 126 H392 L454 182 H990" pathLength="1" />

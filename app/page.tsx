@@ -4,6 +4,7 @@ import type { CSSProperties } from "react";
 import CinematicExperience from "@/components/cinematic-experience";
 import ContactForm from "@/components/contact-form";
 import SiteHeader from "@/components/site-header";
+import SitePreloader from "@/components/site-preloader";
 import { services } from "@/data/services";
 
 const partners = [
@@ -46,6 +47,7 @@ export default function Home() {
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }} />
+      <SitePreloader />
       <CinematicExperience />
       <SiteHeader />
 

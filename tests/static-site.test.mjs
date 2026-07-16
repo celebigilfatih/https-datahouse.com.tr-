@@ -42,6 +42,23 @@ test("homepage keeps the seven cinematic chapters and contact fields", () => {
   }
 });
 
+test("homepage includes the session-scoped Data Pulse preloader", () => {
+  const home = read("out/index.html");
+  const service = read("out/hizmetler/ag-cozumleri/index.html");
+  const preloader = read("components/site-preloader.tsx");
+  const cinematic = read("components/cinematic-experience.tsx");
+
+  for (const text of ["site-preloader", "DATA PULSE", "SYSTEM INITIALIZING", "INFRASTRUCTURE / READY SEQUENCE"]) {
+    assert.match(home, new RegExp(text));
+  }
+  assert.doesNotMatch(service, /class="site-preloader/);
+  assert.match(home, /datahouse_preloader_seen/);
+  assert.match(preloader, /4000 - exitDuration/);
+  assert.match(preloader, /minimumDuration = reducedMotion \? 300 : 900/);
+  assert.match(preloader, /datahouse:preloader-complete/);
+  assert.match(cinematic, /datahouse:preloader-complete/);
+});
+
 test("AI service includes the local RAG scene and transparent product asset", () => {
   const home = read("out/index.html");
   const service = read("out/hizmetler/kurumsal-yapay-zeka-cozumleri/index.html");
