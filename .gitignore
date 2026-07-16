@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Next.js and static export output
+.next/
+out/
+tsconfig.tsbuildinfo
+
+# Local test and browser artifacts
+.playwright-cli/
+output/
+
+# Local environment and server secrets
+.env*
+!.env.example
+server-config/contact.php
+
+# macOS
+.DS_Store
+
+# Unused source/reference assets kept outside the public bundle
+/dell-powerstore.png
+/dell-powerstore-all-flash-storage-hero-2998x1400.avif
+/dell-powerstore-all-flash-storage-hero-2998x1400 (1).avif

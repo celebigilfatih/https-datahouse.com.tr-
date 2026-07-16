@@ -1,0 +1,29 @@
+Options -Indexes
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteRule ^Ağ-Çözümleri\.html$ /hizmetler/ag-cozumleri/ [R=301,L,NE]
+RewriteRule ^Sunucu-Çözümleri\.html$ /hizmetler/sunucu-cozumleri/ [R=301,L,NE]
+RewriteRule ^Sunucu-Bakım-Hizmetleri\.html$ /hizmetler/sunucu-bakim/ [R=301,L,NE]
+RewriteRule ^Yedekleme-Hizmetleri\.html$ /hizmetler/yedekleme/ [R=301,L,NE]
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
