@@ -1,0 +1,14 @@
+.git
+.next
+out
+node_modules
+output
+.playwright-cli
+.DS_Store
+*.tsbuildinfo
+.env*
+!/.env.example
+server-config/contact.php
+dell-powerstore.png
+dell-powerstore-all-flash-storage-hero-2998x1400.avif
+dell-powerstore-all-flash-storage-hero-2998x1400 (1).avif

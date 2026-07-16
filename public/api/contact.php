@@ -18,6 +18,29 @@ function value(array $payload, string $key): string
     return is_string($candidate) ? trim($candidate) : '';
 }
 
+function environment_value(string $key, string $default = ''): string
+{
+    $value = getenv($key);
+    return is_string($value) && $value !== '' ? $value : $default;
+}
+
+function environment_config(): array
+{
+    return [
+        'allowed_origin' => environment_value('CONTACT_ALLOWED_ORIGIN', 'https://datahouse.com.tr'),
+        'turnstile_secret' => environment_value('CONTACT_TURNSTILE_SECRET'),
+        'rate_limit_salt' => environment_value('CONTACT_RATE_LIMIT_SALT'),
+        'rate_limit_dir' => environment_value('CONTACT_RATE_LIMIT_DIR', '/var/www/datahouse-contact-rate'),
+        'smtp_host' => environment_value('CONTACT_SMTP_HOST'),
+        'smtp_port' => (int)environment_value('CONTACT_SMTP_PORT', '587'),
+        'smtp_secure' => environment_value('CONTACT_SMTP_SECURE', 'tls'),
+        'smtp_username' => environment_value('CONTACT_SMTP_USERNAME'),
+        'smtp_password' => environment_value('CONTACT_SMTP_PASSWORD'),
+        'from_email' => environment_value('CONTACT_FROM_EMAIL', 'info@datahouse.com.tr'),
+        'to_email' => environment_value('CONTACT_TO_EMAIL', 'info@datahouse.com.tr'),
+    ];
+}
+
 function text_length(string $value): int
 {
     return function_exists('mb_strlen') ? mb_strlen($value, 'UTF-8') : strlen($value);
@@ -155,12 +178,13 @@ if (strpos($contentType, 'application/json') !== 0) respond(415, false, 'Geçers
 if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 24000) respond(413, false, 'İstek çok büyük.');
 
 $configPath = dirname(__DIR__, 2) . '/datahouse-config/contact.php';
-if (!is_file($configPath)) {
-    error_log('Datahouse contact config missing: ' . $configPath);
+$config = is_file($configPath) ? require $configPath : environment_config();
+if (!is_array($config)) respond(503, false, 'İletişim servisi yapılandırılamadı.');
+
+if ((string)($config['turnstile_secret'] ?? '') === '' || (string)($config['rate_limit_salt'] ?? '') === '' || (string)($config['smtp_host'] ?? '') === '' || (string)($config['smtp_username'] ?? '') === '' || (string)($config['smtp_password'] ?? '') === '') {
+    error_log('Datahouse contact configuration is incomplete.');
     respond(503, false, 'İletişim servisi şu anda kullanılamıyor. Lütfen info@datahouse.com.tr adresine yazın.');
 }
-$config = require $configPath;
-if (!is_array($config)) respond(503, false, 'İletişim servisi yapılandırılamadı.');
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $allowedOrigin = rtrim((string)($config['allowed_origin'] ?? 'https://datahouse.com.tr'), '/');
@@ -189,7 +213,7 @@ if (text_length($message) < 10 || text_length($message) > 2000) respond(422, fal
 if (!$kvkkAccepted) respond(422, false, 'KVKK aydınlatma metnini kabul etmeniz gerekiyor.');
 
 $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
-$salt = (string)($config['rate_limit_salt'] ?? 'datahouse');
+$salt = (string)$config['rate_limit_salt'];
 $identity = hash_hmac('sha256', $ip . '|' . strtolower($email), $salt);
 $rateDirectory = (string)($config['rate_limit_dir'] ?? (sys_get_temp_dir() . '/datahouse-contact-rate'));
 if (!enforce_rate_limit($rateDirectory, $identity)) respond(429, false, 'Çok sayıda talep gönderildi. Lütfen birkaç dakika sonra tekrar deneyin.');
