@@ -237,8 +237,8 @@ export default function Home() {
       <section className="contact-section" data-header-tone="dark" id="iletisim">
         <div className="contact-intro">
           <p className="eyebrow"><span>CONTACT</span> BİRLİKTE BAŞLAYALIM</p>
-          <h2>Altyapınızı<br /><em>konuşalım.</em></h2>
-          <p>İhtiyacınızı anlatın. Doğru sorularla başlayalım, size uygun teknik çerçeveyi birlikte oluşturalım.</p>
+          <h2>Doğru sistemi,<br /><em>birlikte kuralım.</em></h2>
+          <p>İhtiyacınızı ve mevcut yapınızı birlikte değerlendirelim; işinize uygun teknik yol haritasını netleştirelim.</p>
         </div>
         <ContactForm />
         <div className="contact-details">
