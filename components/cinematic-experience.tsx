@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import AiDataStage from "./ai-data-stage";
+import FirewallGatewayStage from "./firewall-gateway-stage";
 
 export type ScrollKeyframe = {
   progress: number;
@@ -22,7 +23,7 @@ export type ScrollKeyframe = {
 };
 
 export type CinematicChapter = {
-  id: "hero" | "network" | "firewall" | "server" | "ai" | "maintenance" | "backup";
+  id: "hero" | "about" | "firewall" | "server" | "ai" | "maintenance" | "backup";
   index: number;
   desktop: ScrollKeyframe;
   mobile: ScrollKeyframe;
@@ -31,7 +32,7 @@ export type CinematicChapter = {
 
 export const cinematicChapters: CinematicChapter[] = [
   { id: "hero", index: 0, desktop: { progress: 0, productX: 12, productY: 6, productScale: 1, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 }, mobile: { progress: 0, productX: 0, productY: 22, productScale: 1.04, productOpacity: .78, firewallX: 0, firewallY: 25, firewallScale: .72, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: .9, aiOpacity: 0, pulseX: 50, pulseY: 64 }, reducedMotion: { progress: 0, productX: 12, productY: 6, productScale: 1, productOpacity: 1, firewallX: 18, firewallY: 6, firewallScale: .8, firewallOpacity: 0, aiX: 18, aiY: 5, aiScale: .82, aiOpacity: 0, pulseX: 70, pulseY: 50 } },
-  { id: "network", index: 1, desktop: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 }, mobile: { progress: .1667, productX: -14, productY: 26, productScale: .72, productOpacity: 0, firewallX: 2, firewallY: 29, firewallScale: .65, firewallOpacity: 0, aiX: 0, aiY: 23, aiScale: .88, aiOpacity: 0, pulseX: 28, pulseY: 32 }, reducedMotion: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 } },
+  { id: "about", index: 1, desktop: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 }, mobile: { progress: .1667, productX: -14, productY: 26, productScale: .72, productOpacity: 0, firewallX: 2, firewallY: 29, firewallScale: .65, firewallOpacity: 0, aiX: 0, aiY: 23, aiScale: .88, aiOpacity: 0, pulseX: 28, pulseY: 32 }, reducedMotion: { progress: .1667, productX: -22, productY: 1, productScale: .64, productOpacity: 0, firewallX: 8, firewallY: 2, firewallScale: .74, firewallOpacity: 0, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 25, pulseY: 36 } },
   { id: "firewall", index: 2, desktop: { progress: .3333, productX: -16, productY: 3, productScale: .58, productOpacity: 0, firewallX: 25, firewallY: 6, firewallScale: 1, firewallOpacity: 1, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 72, pulseY: 54 }, mobile: { progress: .3333, productX: -8, productY: 26, productScale: .6, productOpacity: 0, firewallX: 0, firewallY: 30, firewallScale: .94, firewallOpacity: .96, aiX: 0, aiY: 23, aiScale: .88, aiOpacity: 0, pulseX: 63, pulseY: 66 }, reducedMotion: { progress: .3333, productX: -16, productY: 3, productScale: .58, productOpacity: 0, firewallX: 25, firewallY: 6, firewallScale: .96, firewallOpacity: 1, aiX: 12, aiY: 5, aiScale: .78, aiOpacity: 0, pulseX: 72, pulseY: 54 } },
   { id: "server", index: 3, desktop: { progress: .5, productX: 16, productY: 1, productScale: .9, productOpacity: 1, firewallX: 21, firewallY: 1, firewallScale: .88, firewallOpacity: 0, aiX: 14, aiY: 4, aiScale: .84, aiOpacity: 0, pulseX: 66, pulseY: 46 }, mobile: { progress: .5, productX: 8, productY: 24, productScale: .98, productOpacity: .82, firewallX: 2, firewallY: 26, firewallScale: .9, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: .92, aiOpacity: 0, pulseX: 66, pulseY: 55 }, reducedMotion: { progress: .5, productX: 16, productY: 1, productScale: .86, productOpacity: 1, firewallX: 21, firewallY: 1, firewallScale: .88, firewallOpacity: 0, aiX: 14, aiY: 4, aiScale: .84, aiOpacity: 0, pulseX: 66, pulseY: 46 } },
   { id: "ai", index: 4, desktop: { progress: .6667, productX: -18, productY: 1, productScale: .58, productOpacity: 0, firewallX: 20, firewallY: 2, firewallScale: .8, firewallOpacity: 0, aiX: 16, aiY: 4, aiScale: 1, aiOpacity: 1, pulseX: 70, pulseY: 55 }, mobile: { progress: .6667, productX: -8, productY: 25, productScale: .64, productOpacity: 0, firewallX: 0, firewallY: 27, firewallScale: .8, firewallOpacity: 0, aiX: 0, aiY: 22, aiScale: 1, aiOpacity: .96, pulseX: 58, pulseY: 72 }, reducedMotion: { progress: .6667, productX: -18, productY: 1, productScale: .58, productOpacity: 0, firewallX: 20, firewallY: 2, firewallScale: .8, firewallOpacity: 0, aiX: 16, aiY: 4, aiScale: .96, aiOpacity: 1, pulseX: 70, pulseY: 55 } },
@@ -99,10 +100,13 @@ export default function CinematicExperience() {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     if (reduced.matches) root.classList.add("reduced-motion");
     const story = document.querySelector<HTMLElement>("[data-cinematic-story]");
+    const chapterElements = cinematicChapters.map((chapter) => story?.querySelector<HTMLElement>(`[data-chapter="${chapter.id}"]`) ?? null);
     let stopped = false;
     let webglRequested = false;
     let target = 0;
     let current = 0;
+    let heroTarget = reduced.matches ? 1 : 0;
+    let heroCurrent = reduced.matches ? 1 : 0;
     let raf = 0;
     let renderer: import("three").WebGLRenderer | null = null;
     let scene: import("three").Scene | null = null;
@@ -114,9 +118,23 @@ export default function CinematicExperience() {
 
     const onScroll = () => {
       if (!story) return;
+      const hero = chapterElements[0];
       const storyBottom = story.offsetTop + story.offsetHeight - innerHeight;
-      target = clamp(scrollY / Math.max(1, storyBottom));
-      const sceneIndex = Math.min(cinematicChapters.length - 1, Math.round(target * (cinematicChapters.length - 1)));
+      const heroEnd = hero ? hero.offsetTop + hero.offsetHeight - innerHeight : 0;
+      heroTarget = reduced.matches ? 1 : clamp((scrollY - (hero?.offsetTop ?? 0)) / Math.max(1, heroEnd - (hero?.offsetTop ?? 0)));
+      const anchors = chapterElements.map((chapter, index) => {
+        if (index === 0) return heroEnd;
+        if (!chapter) return heroEnd;
+        return chapter.offsetTop + Math.min(chapter.offsetHeight, innerHeight) * .5 - innerHeight * .5;
+      });
+      let segment = 0;
+      while (segment < anchors.length - 2 && scrollY > anchors[segment + 1]) segment += 1;
+      const from = anchors[segment] ?? heroEnd;
+      const to = anchors[segment + 1] ?? storyBottom;
+      const amount = scrollY <= heroEnd ? 0 : clamp((scrollY - from) / Math.max(1, to - from));
+      target = clamp((segment + amount) / (cinematicChapters.length - 1));
+      let sceneIndex = 0;
+      while (sceneIndex < anchors.length - 1 && scrollY >= ((anchors[sceneIndex] ?? 0) + (anchors[sceneIndex + 1] ?? 0)) * .5) sceneIndex += 1;
       root.dataset.scene = cinematicChapters[sceneIndex].id;
       root.classList.toggle("is-dimmed", scrollY > story.offsetTop + story.offsetHeight - innerHeight * .25);
       document.documentElement.style.setProperty("--story-progress", String(target));
@@ -124,6 +142,7 @@ export default function CinematicExperience() {
     };
 
     const onResize = () => {
+      onScroll();
       if (!renderer || !camera) return;
       camera.aspect = innerWidth / innerHeight;
       camera.updateProjectionMatrix();
@@ -137,7 +156,29 @@ export default function CinematicExperience() {
       elapsed += delta;
       const smoothing = reduced.matches ? 1 : 1 - Math.pow(.0008, delta);
       current += (target - current) * smoothing;
+      heroCurrent += (heroTarget - heroCurrent) * smoothing;
       const state = sample(current, innerWidth < 768, reduced.matches);
+      const heroBlend = clamp(1 - current * (cinematicChapters.length - 1));
+      const mobile = innerWidth < 768;
+      const mix = (a: number, b: number, amount: number) => a + (b - a) * amount;
+      const heroScale = mix(mobile ? 1.04 : 1, mobile ? 1.58 : 1.38, ease(heroCurrent));
+      const heroX = mix(mobile ? 0 : 12, 0, ease(heroCurrent));
+      const heroY = mix(mobile ? 22 : 6, mobile ? 8 : 0, ease(heroCurrent));
+      state.productX = mix(state.productX, heroX, heroBlend);
+      state.productY = mix(state.productY, heroY, heroBlend);
+      state.productScale = mix(state.productScale, heroScale, heroBlend);
+      state.productOpacity = mix(state.productOpacity, 1, heroBlend);
+      document.documentElement.style.setProperty("--hero-progress", heroCurrent.toFixed(4));
+      document.documentElement.style.setProperty("--hero-copy-opacity", String(clamp(1 - heroCurrent * 2.8)));
+      document.documentElement.style.setProperty("--hero-copy-shift", `${heroCurrent * -24}px`);
+      document.documentElement.style.setProperty("--hero-copy-blur", `${heroCurrent * 7}px`);
+      [
+        ["a", .16, .24], ["b", .31, .39], ["c", .46, .54],
+        ["d", .61, .69], ["e", .76, .84],
+      ].forEach(([id, lineStart, cardStart]) => {
+        document.documentElement.style.setProperty(`--hero-line-${id}`, String(clamp((heroCurrent - Number(lineStart)) * 8)));
+        document.documentElement.style.setProperty(`--hero-card-${id}`, String(clamp((heroCurrent - Number(cardStart)) * 8)));
+      });
       const productTransform = `translate3d(calc(-50% + ${state.productX}vw), calc(-50% + ${state.productY}vh), 0) scale(${state.productScale})`;
       if (product.style.transform !== productTransform) product.style.transform = productTransform;
       const productOpacity = String(state.productOpacity);
@@ -241,6 +282,14 @@ export default function CinematicExperience() {
       document.removeEventListener("visibilitychange", onVisibility);
       productImage.removeEventListener("load", markProductReady);
       window.removeEventListener("datahouse:preloader-complete", onPreloaderComplete);
+      document.documentElement.style.removeProperty("--hero-progress");
+      document.documentElement.style.removeProperty("--hero-copy-opacity");
+      document.documentElement.style.removeProperty("--hero-copy-shift");
+      document.documentElement.style.removeProperty("--hero-copy-blur");
+      ["a", "b", "c", "d", "e"].forEach((id) => {
+        document.documentElement.style.removeProperty(`--hero-line-${id}`);
+        document.documentElement.style.removeProperty(`--hero-card-${id}`);
+      });
       renderer?.dispose();
       renderer?.domElement.remove();
       particles?.geometry.dispose();
@@ -266,85 +315,63 @@ export default function CinematicExperience() {
           fetchPriority="high"
         />
       </div>
-      <div ref={firewallRef} className="firewall-product-stage">
-        <svg className="firewall-flow" viewBox="0 0 1000 360" preserveAspectRatio="none" role="presentation">
-          <path className="firewall-flow-base" d="M10 182 H154 L214 126 H392 L454 182 H990" pathLength="1" />
-          <path className="firewall-flow-signal" d="M10 182 H154 L214 126 H392 L454 182 H990" pathLength="1" />
-          <path className="firewall-flow-pulse" d="M10 182 H154 L214 126 H392 L454 182 H990" pathLength="1" />
-          <circle cx="214" cy="126" r="5" /><circle cx="454" cy="182" r="5" /><circle cx="830" cy="182" r="5" />
-        </svg>
-        <div className="firewall-rack">
-          <span className="firewall-rack-label">PERIMETER NODE / FG-2600F</span>
-          <img className="firewall-device" src="/images/fortigate-firewall.webp" alt="" width="1000" height="300" />
-          <div className="firewall-rack-status"><i /><i /><i /><b>POLICY SYNC / READY</b></div>
-        </div>
+      <div className="hero-product-callouts">
+        <div className="hero-product-callout hero-product-callout-a"><span><b>01</b><strong>NVMe STORAGE</strong><small>LOW-LATENCY DATA PATH / ACTIVE</small></span><i /></div>
+        <div className="hero-product-callout hero-product-callout-b"><span><b>02</b><strong>SCALABLE ARCHITECTURE</strong><small>CAPACITY LAYER / READY TO GROW</small></span><i /></div>
+        <div className="hero-product-callout hero-product-callout-c"><span><b>03</b><strong>INTELLIGENT DATA LAYER</strong><small>WORKLOAD PLACEMENT / OPERATIONAL</small></span><i /></div>
+        <div className="hero-product-callout hero-product-callout-d"><span><b>04</b><strong>DATA EFFICIENCY</strong><small>STORAGE RESOURCES / OPTIMIZED</small></span><i /></div>
+        <div className="hero-product-callout hero-product-callout-e"><span><b>05</b><strong>RESILIENCY LAYER</strong><small>SYSTEM REDUNDANCY / READY</small></span><i /></div>
       </div>
+      <FirewallGatewayStage ref={firewallRef} variant="cinematic" />
       <AiDataStage variant="cinematic" />
       <img ref={aiRef} className="ai-product" src="/images/ai/rtx-spark-device.webp" alt="" width="1738" height="905" loading="lazy" decoding="async" />
       <div ref={pulseRef} className="data-pulse"><span /><i /></div>
-      <div className="network-stage">
-        <svg className="network-flow-diagram" viewBox="0 0 960 430" preserveAspectRatio="none" role="presentation">
-          <g className="network-flow-base">
-            <path d="M76 78 H230 L414 194" /><path d="M76 352 H230 L414 236" />
-            <path d="M884 78 H730 L546 194" /><path d="M884 352 H730 L546 236" />
-          </g>
-          <g className="network-flow-signal">
-            <path d="M76 78 H230 L414 194" /><path d="M76 352 H230 L414 236" />
-            <path d="M884 78 H730 L546 194" /><path d="M884 352 H730 L546 236" />
-          </g>
-          <g className="network-flow-packet">
-            <path pathLength="1" d="M76 78 H230 L414 194" /><path pathLength="1" d="M76 352 H230 L414 236" />
-            <path pathLength="1" d="M884 78 H730 L546 194" /><path pathLength="1" d="M884 352 H730 L546 236" />
-          </g>
-        </svg>
-        {[
-          ["CORE / 01", "8%", "12%"], ["BRANCH / 02", "8%", "79%"],
-          ["CLIENT / 24", "86%", "12%"], ["SERVICE / 08", "86%", "79%"],
-        ].map(([label, x, y]) => (
-          <span className="network-node" key={label} style={{ "--node-x": x, "--node-y": y } as React.CSSProperties}><i />{label}</span>
-        ))}
-        <div className="network-switch">
-          <header><span><i /> SWITCH FABRIC / ACTIVE</span><b>24 PORT</b></header>
-          <div className="network-switch-body">
-            <div className="network-ports">
-              {Array.from({ length: 24 }, (_, index) => <i className={index % 4 === 0 || index === 21 ? "is-live" : ""} key={index} />)}
-            </div>
-            <div className="network-uplinks"><i /><i /><span>UPLINK<br />10G</span></div>
-          </div>
-          <footer><span>VLAN SEGMENTATION / READY</span><span>PACKET FLOW / STABLE</span></footer>
+      <div className="about-editorial-stage">
+        <div className="about-stage-halo" />
+        <div className="about-monogram">
+          <span>DH</span>
+          <b>KNOWLEDGE SYSTEMS</b>
         </div>
+        <svg className="about-data-thread" viewBox="0 0 1600 500" preserveAspectRatio="none" role="presentation">
+          <path className="about-thread-base" d="M0 330 C245 260 395 380 650 300 S1030 210 1260 295 S1450 335 1600 270" pathLength="1" />
+          <path className="about-thread-draw" d="M0 330 C245 260 395 380 650 300 S1030 210 1260 295 S1450 335 1600 270" pathLength="1" />
+          <path className="about-thread-pulse" d="M0 330 C245 260 395 380 650 300 S1030 210 1260 295 S1450 335 1600 270" pathLength="1" />
+        </svg>
       </div>
       <div className="maintenance-stage">
         <div className="maintenance-rack-shell">
-          <header><span>RACK HEALTH / LIVE</span><b><i /> OBSERVED</b></header>
+          <header><span>ALTYAPI KONTROLÜ</span><b><i /> TARAMA</b></header>
           <div className="maintenance-rack-units">
             {Array.from({ length: 3 }, (_, unit) => (
               <div className="maintenance-rack-unit" key={unit}>
                 <span>U{unit + 1}</span>
-                <div>{Array.from({ length: 12 }, (_, port) => <i className={(port + unit) % 5 === 0 ? "is-live" : ""} key={port} />)}</div>
-                <b>{unit === 0 ? "COMPUTE" : unit === 1 ? "STORAGE" : "SERVICE"}</b>
+                <div>{Array.from({ length: 12 }, (_, port) => <i className={port === 2 + unit * 3 ? "is-checkpoint" : ""} key={port} />)}</div>
+                <b>{unit === 0 ? "DONANIM" : unit === 1 ? "DEPOLAMA" : "SERVİSLER"}</b>
               </div>
             ))}
           </div>
           <div className="maintenance-scan-plane"><i /></div>
         </div>
-        <div className="maintenance-telemetry">
-          <header><span><i /> HEALTH TELEMETRY</span><b>ACTIVE</b></header>
-          <strong>99.8<small>%</small></strong>
-          <dl>
-            <div><dt>POWER</dt><dd>NOMINAL</dd></div>
-            <div><dt>THERMAL</dt><dd>STABLE</dd></div>
-            <div><dt>EVENTS</dt><dd>MONITORED</dd></div>
-          </dl>
-        </div>
+        <ol className="maintenance-workflow">
+          <li>
+            <span>01</span>
+            <div><strong>SAĞLIK TARAMASI</strong><small>DONANIM / SERVİSLER</small></div>
+          </li>
+          <li>
+            <span>02</span>
+            <div><strong>RİSKİ ÖNCELİKLENDİR</strong><small>BULGULAR / SINIFLANDIRILDI</small></div>
+          </li>
+          <li>
+            <span>03</span>
+            <div><strong>MÜDAHALE PLANI</strong><small>BAKIM PLANI / HAZIR</small></div>
+          </li>
+        </ol>
       </div>
-      <div className="firewall-scan"><span>POLICY / ACTIVE</span><i /><i /><i /><b>SECURE</b></div>
       <div className="ai-status-panel">
         <span><i /> LOCAL MODEL / ACTIVE</span>
         <span>KNOWLEDGE INDEX / READY</span>
         <span>DATA BOUNDARY / ON-PREMISE</span>
       </div>
-      <div className="backup-core"><span /><i /><b>VERİ KORUNUYOR</b></div>
       <div className="cinematic-vignette" />
       <div className="cinematic-noise" />
     </div>

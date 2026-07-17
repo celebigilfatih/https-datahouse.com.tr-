@@ -1,11 +1,21 @@
 import { ArrowDown, ArrowRight, ArrowUpRight, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import type { CSSProperties } from "react";
+import BackupRecoveryStage from "@/components/backup-recovery-stage";
 import CinematicExperience from "@/components/cinematic-experience";
 import ContactForm from "@/components/contact-form";
 import SiteHeader from "@/components/site-header";
 import SitePreloader from "@/components/site-preloader";
 import { services } from "@/data/services";
+
+const solutionIndexEntries = [
+  { slug: "sunucu-cozumleri", number: "01", title: "Sunucu Çözümleri" },
+  { slug: "fortigate-firewall-cozumleri", number: "02", title: "Firewall Çözümleri" },
+  { slug: "ag-cozumleri", number: "03", title: "Ağ Çözümleri" },
+  { slug: "kurumsal-yapay-zeka-cozumleri", number: "04", title: "Kurumsal Yapay Zekâ Çözümleri" },
+  { slug: "sunucu-bakim", number: "05", title: "Sunucu Bakım Hizmetleri" },
+  { slug: "yedekleme", number: "06", title: "Yedekleme Çözümleri" },
+] as const;
 
 const partners = [
   { name: "Dell Technologies", src: "/images/partners/dell.png", width: 1650, height: 500, opticalScale: 1 },
@@ -60,42 +70,12 @@ export default function Home() {
           <div className="section-microcopy top-left">DATAHOUSE / INFRASTRUCTURE<br />BURSA · TR</div>
           <div className="hero-copy copy-block">
             <p className="eyebrow"><span>DATAHOUSE</span> BİLGİ GÜÇTÜR</p>
-            <h1>Bilgi,<br /><span>harekete</span><br />geçtiğinde güçtür.</h1>
+            <h1><span className="hero-title-first">Bilgi, <span className="hero-title-outline">harekete</span></span><br />geçtiğinde güçtür.</h1>
             <p className="hero-lede">Kritik teknoloji altyapınızı tasarlıyor, devreye alıyor ve işinizle birlikte çalışır durumda tutuyoruz.</p>
             <div className="hero-actions">
               <Link className="primary-action" href="#hizmetler">Çözümleri keşfet <ArrowDown size={17} aria-hidden="true" /></Link>
               <Link className="quiet-action" href="#iletisim">Projenizi konuşalım <ArrowUpRight size={15} aria-hidden="true" /></Link>
             </div>
-          </div>
-          <div className="hero-data-wave" aria-hidden="true">
-            <svg viewBox="0 0 1600 180" preserveAspectRatio="none" role="presentation">
-              <defs>
-                <linearGradient id="hero-wave-red" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#e42b20" stopOpacity="0" />
-                  <stop offset="0.14" stopColor="#e42b20" stopOpacity="0.72" />
-                  <stop offset="0.58" stopColor="#ff3b2f" />
-                  <stop offset="1" stopColor="#e42b20" stopOpacity="0.12" />
-                </linearGradient>
-                <linearGradient id="hero-wave-hot" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0" stopColor="#ff3b2f" stopOpacity="0" />
-                  <stop offset="0.45" stopColor="#fff" />
-                  <stop offset="0.58" stopColor="#ff3b2f" />
-                  <stop offset="1" stopColor="#e42b20" stopOpacity="0" />
-                </linearGradient>
-                <filter id="hero-wave-glow" x="-20%" y="-100%" width="140%" height="300%">
-                  <feGaussianBlur stdDeviation="5" result="blur" />
-                  <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
-                </filter>
-              </defs>
-              <g className="hero-wave-field">
-                <path className="hero-wave-line hero-wave-line-a" pathLength="1" d="M0 100 C130 57 225 139 350 91 S560 59 700 98 S930 139 1085 87 S1360 64 1600 96" />
-                <path className="hero-wave-line hero-wave-line-b" pathLength="1" d="M0 91 C170 132 238 46 405 94 S642 126 798 84 S1047 64 1190 101 S1440 120 1600 89" />
-                <path className="hero-wave-line hero-wave-line-c" pathLength="1" d="M0 109 C115 79 235 111 345 103 S561 77 690 99 S906 111 1045 93 S1338 82 1600 101" />
-                <path className="hero-wave-dots" pathLength="1" d="M0 100 C130 57 225 139 350 91 S560 59 700 98 S930 139 1085 87 S1360 64 1600 96" />
-              </g>
-              <path className="hero-wave-spine" d="M0 99 C285 96 475 103 705 98 S1165 96 1600 98" />
-              <path className="hero-wave-pulse" pathLength="1" d="M0 99 C285 96 475 103 705 98 S1165 96 1600 98" />
-            </svg>
           </div>
           <div className="hero-status" aria-hidden="true">
             <span>SYSTEM STATUS</span><b><i /> OPERATIONAL</b>
@@ -103,28 +83,43 @@ export default function Home() {
           <p className="scene-number">01 <span>BAŞLANGIÇ</span></p>
         </section>
 
-        <section className="story-section network-section" data-chapter="network" data-header-tone="dark" id="hizmetler">
-          <div className="copy-block right-copy">
-            <p className="eyebrow"><span>01</span> AĞ ÇÖZÜMLERİ</p>
-            <h2>Her bağlantı,<br /><em>işinize güç verir.</em></h2>
-            <p>Merkezden şubeye, kullanıcıdan kritik servise kadar her noktayı güvenli ve ölçülebilir tek bir mimaride buluşturuyoruz.</p>
-            <Link className="story-link" href="/hizmetler/ag-cozumleri/">Ağ çözümlerini incele <ArrowRight size={17} aria-hidden="true" /></Link>
+        <section className="story-section about-story-section" data-chapter="about" data-header-tone="dark" id="hakkimizda">
+          <div className="about-editorial-copy">
+            <p className="eyebrow"><span>ABOUT</span> DATAHOUSE</p>
+            <h2 className="about-editorial-heading">
+              <span>Teknolojiyi değil,</span>
+              <em>işleyen sistemi</em>
+              <span>kurarız.</span>
+            </h2>
+            <div className="about-editorial-summary">
+              <p>Datahouse, kurumsal teknoloji altyapılarını uçtan uca tasarlar, devreye alır ve sürdürülebilir hâle getirir.</p>
+              <p>İhtiyacı doğru okur; mühendislik, danışmanlık, eğitim ve operasyonu tek bir sistem yaklaşımında buluşturur.</p>
+              <Link className="story-link" href="#hizmetler">Çözümlerimizi incele <ArrowRight size={17} aria-hidden="true" /></Link>
+            </div>
+            <ol className="about-expertise-rail" aria-label="Datahouse uzmanlık alanları">
+              {[
+                ["01", "MÜHENDİSLİK", "Altyapı tasarımı ve uygulama"],
+                ["02", "DANIŞMANLIK", "İhtiyaç ve karar mimarisi"],
+                ["03", "EĞİTİM", "Bilgi ve yetkinlik aktarımı"],
+                ["04", "OPERASYON", "İzleme ve süreklilik"],
+              ].map(([number, title, detail], index) => (
+                <li key={title} style={{ "--about-item": index } as CSSProperties}>
+                  <span>{number}</span>
+                  <strong>{title}</strong>
+                  <small>{detail}</small>
+                </li>
+              ))}
+            </ol>
           </div>
-          <div className="chapter-data left-data" aria-hidden="true">
-            <span>LATENCY</span><strong>08<small>ms</small></strong><i /><span>PACKET FLOW / STABLE</span>
-          </div>
-          <p className="scene-number">02 <span>BAĞLANTI</span></p>
+          <p className="scene-number">02 <span>DATAHOUSE</span></p>
         </section>
 
         <section className="story-section firewall-section" data-chapter="firewall" data-header-tone="dark">
           <div className="copy-block left-copy">
             <p className="eyebrow"><span>02</span> FORTIGATE FIREWALL</p>
-            <h2>Güvenlik,<br /><em>hareketi korur.</em></h2>
+            <h2>Trafik aksın.<br /><em>Tehditler geçemesin.</em></h2>
             <p>Ağınızın giriş ve çıkış noktalarını görünür politikalar, doğru segmentasyon ve güvenli erişim katmanlarıyla koruyoruz.</p>
             <Link className="story-link" href="/hizmetler/fortigate-firewall-cozumleri/">Firewall çözümlerini incele <ArrowRight size={17} aria-hidden="true" /></Link>
-          </div>
-          <div className="chapter-data firewall-data" aria-hidden="true">
-            <span>POLICY ENGINE</span><strong>24<small>/7</small></strong><i /><span>PERIMETER / OBSERVED</span>
           </div>
           <p className="scene-number">03 <span>ÇEVRE GÜVENLİĞİ</span></p>
         </section>
@@ -157,78 +152,48 @@ export default function Home() {
 
         <section className="story-section maintenance-section" data-chapter="maintenance" data-header-tone="dark">
           <div className="copy-block right-copy">
-            <p className="eyebrow"><span>05</span> BAKIM HİZMETLERİ</p>
-            <h2>Kesintiyi değil,<br /><em>sürekliliği yönet.</em></h2>
-            <p>Sunucu sağlığını düzenli izliyor, riskleri önceliklendiriyor ve sorunlar işinizi durdurmadan müdahale ediyoruz.</p>
-            <Link className="story-link" href="/hizmetler/sunucu-bakim/">Bakım yaklaşımını incele <ArrowRight size={17} aria-hidden="true" /></Link>
+            <p className="eyebrow"><span>05</span> SUNUCU BAKIM HİZMETLERİ</p>
+            <h2>Kesintiyi beklemeyiz.<br /><em>Riski önceden görürüz.</em></h2>
+            <p>Sunucu altyapınızı planlı sağlık kontrolleriyle inceler, bulguları önceliklendirir ve müdahale adımlarını sorunlar kesintiye dönüşmeden netleştiririz.</p>
+            <Link className="story-link" href="/hizmetler/sunucu-bakim/">Bakım hizmetlerini incele <ArrowRight size={17} aria-hidden="true" /></Link>
           </div>
           <p className="scene-number">06 <span>SÜREKLİLİK</span></p>
         </section>
 
         <section className="story-section backup-section" data-chapter="backup" data-header-tone="dark">
-          <div className="backup-copy">
-            <p className="eyebrow"><span>06</span> YEDEKLEME ÇÖZÜMLERİ</p>
-            <h2>Veriniz geri<br /><em>dönebilsin.</em></h2>
-            <p>Kritik verileri doğru sıklıkta koruyor, geri dönüş senaryolarını tasarlıyor ve yedeklerin gerçekten çalıştığını doğruluyoruz.</p>
-            <Link className="story-link" href="/hizmetler/yedekleme/">Yedekleme çözümlerini incele <ArrowRight size={17} aria-hidden="true" /></Link>
+          <div className="backup-sticky">
+            <div className="backup-copy">
+              <p className="eyebrow"><span>06</span> VEEAM TABANLI YEDEKLEME</p>
+              <h2>Veriniz geri<br /><em>dönebilsin.</em></h2>
+              <p>Veeam tabanlı yedekleme mimarisini; kaynak sistemlerin korunmasından yedeklerin doğrulanmasına ve test geri dönüşüne kadar uçtan uca kurguluyoruz.</p>
+              <Link className="story-link" href="/hizmetler/yedekleme/">Yedekleme çözümlerini incele <ArrowRight size={17} aria-hidden="true" /></Link>
+            </div>
+            <BackupRecoveryStage variant="cinematic" />
+            <p className="scene-number">07 <span>KORUMA</span></p>
           </div>
-          <div className="backup-job-stage" aria-hidden="true">
-            <div className="backup-source-node">
-              <span><i /> 01 / SOURCE SYSTEMS</span>
-              <img src="/images/backup/backup-source-systems.png" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
-              <b>03 VM / ONLINE</b>
-            </div>
-            <div className="backup-pipeline">
-              <i />
-              {Array.from({ length: 8 }, (_, index) => <span key={index} style={{ "--block": index } as React.CSSProperties} />)}
-            </div>
-            <div className="backup-repository-node">
-              <span><i /> 03 / REPOSITORY</span>
-              <img src="/images/backup/backup-repository.png" alt="" width="1536" height="1024" loading="lazy" decoding="async" />
-              <b>RESTORE POINT / READY</b>
-            </div>
-            <div className="backup-job-panel">
-              <header><span><i /> BACKUP JOB / ACTIVE</span><b>98%</b></header>
-              <div className="backup-job-progress"><i /></div>
-              <dl>
-                <div><dt>SOURCE</dt><dd>VM_CLUSTER_01</dd></div>
-                <div><dt>PROCESSING</dt><dd>ACTIVE</dd></div>
-                <div><dt>VERIFY</dt><dd>SUCCESS</dd></div>
-              </dl>
-            </div>
-          </div>
-          <p className="scene-number">07 <span>KORUMA</span></p>
         </section>
       </div>
 
-      <section className="services-overview section-surface" data-header-tone="light">
+      <section className="services-overview section-surface" data-header-tone="light" id="hizmetler">
         <div className="section-heading">
           <p className="eyebrow dark"><span>SOLUTIONS</span> ÇÖZÜM İNDEKSİ</p>
           <h2>Tek bir sistem gibi<br />çalışan çözümler.</h2>
           <p>Ağdan veriye, kurulumdan sürekliliğe kadar altyapınızın bütün katmanlarını birlikte ele alıyoruz.</p>
         </div>
         <div className="solution-index">
-          {services.map((service) => (
-            <Link href={`/hizmetler/${service.slug}/`} className="solution-card" key={service.slug}>
-              <span className="solution-card-number">{service.number}</span>
-              <h3>{service.title}</h3>
-              <p>{service.indexSummary}</p>
-              <span className="solution-card-action" aria-hidden="true"><ArrowUpRight /></span>
-            </Link>
-          ))}
-        </div>
-      </section>
+          {solutionIndexEntries.map((entry) => {
+            const service = services.find((item) => item.slug === entry.slug);
+            if (!service) return null;
 
-      <section className="about-section section-surface" data-header-tone="light" id="hakkimizda">
-        <div className="about-marker" aria-hidden="true">DH<br /><span>KNOWLEDGE<br />SYSTEMS</span></div>
-        <div className="about-copy">
-          <p className="eyebrow dark"><span>ABOUT</span> DATAHOUSE</p>
-          <h2>Teknolojiyi değil,<br />işleyen sistemi kurarız.</h2>
-          <p className="about-lede">Datahouse; kurumların teknoloji altyapısını tasarlayan, geliştiren ve sürdürülebilir hâle getiren bir teknoloji şirketidir.</p>
-          <div className="about-columns">
-            <p>Profesyonel eğitmen ve danışman kadromuzla kurumsal ve bireysel eğitimler veriyor; gerçek hayat deneyimini teknik bilgiyle birleştiriyoruz.</p>
-            <p>Amacımız, hızla gelişen bilgi teknolojileri sektöründe ihtiyaç duyulan uzmanlığa erişimi kolaylaştırmak ve kurumlara güvenilir bir bilgi kaynağı olmaktır.</p>
-          </div>
+            return (
+              <Link href={`/hizmetler/${service.slug}/`} className="solution-card" key={service.slug}>
+                <span className="solution-card-number">{entry.number}</span>
+                <h3>{entry.title}</h3>
+                <p>{service.indexSummary}</p>
+                <span className="solution-card-action" aria-hidden="true"><ArrowUpRight /></span>
+              </Link>
+            );
+          })}
         </div>
       </section>
 

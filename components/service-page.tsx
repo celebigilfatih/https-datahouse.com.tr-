@@ -2,6 +2,8 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, BrainCircuit, Check, Cpu, Database
 import Link from "next/link";
 import type { Service } from "@/data/services";
 import AiDataStage from "./ai-data-stage";
+import BackupRecoveryStage from "./backup-recovery-stage";
+import FirewallGatewayStage from "./firewall-gateway-stage";
 import SiteHeader from "./site-header";
 
 const icons = { network: Network, firewall: Shield, server: Cpu, ai: BrainCircuit, maintenance: ScanLine, backup: DatabaseBackup };
@@ -16,7 +18,7 @@ export default function ServicePage({ service }: { service: Service }) {
         <div className="service-hero-grid" aria-hidden="true" />
         <div className="service-orbit" aria-hidden="true"><i /><span><Icon /></span></div>
         {service.visual === "server" && <img className="service-product" src="/images/powerstore.avif" alt="Dell PowerStore" width="2998" height="1400" />}
-        {service.visual === "firewall" && <img className="service-product service-firewall-product" src="/images/fortigate-firewall.webp" alt="FortiGate Firewall cihazı" width="1000" height="300" />}
+        {service.visual === "firewall" && <FirewallGatewayStage variant="service" />}
         {service.visual === "ai" && <AiDataStage variant="service" />}
         {service.visual === "ai" && <img className="service-product service-ai-product" src="/images/ai/rtx-spark-device.webp" alt="NVIDIA RTX Spark tabanlı kompakt yapay zekâ sistemi" width="1738" height="905" fetchPriority="high" />}
         <div className="service-hero-copy">
@@ -26,6 +28,7 @@ export default function ServicePage({ service }: { service: Service }) {
           <p>{service.summary}</p>
           <Link className="primary-action" href="#teklif">Çözümü konuşalım <ArrowRight size={17} /></Link>
         </div>
+        {service.visual === "backup" && <BackupRecoveryStage variant="service" />}
         <div className="service-hero-index">{service.number}<span>DATAHOUSE / SERVICES</span></div>
       </section>
 
